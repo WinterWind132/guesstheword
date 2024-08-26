@@ -1,0 +1,84 @@
+﻿@page "/levels"
+
+<div class="levels-container">
+    @foreach (var level in levels)
+    {
+        <div class="level-card" @onclick="() => NavigateToLevel(level.Number)">
+            <div class="level-icon">
+                <img src="@GetIconPath(level.Number)" alt="@GetLevelName(level.Number)" class="level-icon-img">
+            </div>
+            <div class="level-content">
+                <div class="level-title">@GetLevelName(level.Number)</div>
+                <div class="level-progress">
+                    <div class="progress-bar" style="width: @(level.Progress * 100)%;"></div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<LevelData> levels = new List<LevelData>
+    {
+        new LevelData { Number = 1, Progress = 1.0f },
+        new LevelData { Number = 2, Progress = 0.25f },
+        new LevelData { Number = 3, Progress = 0.5f },
+        new LevelData { Number = 4, Progress = 0.0f },
+        new LevelData { Number = 5, Progress = 0.0f },
+    };
+
+    private void NavigateToLevel(int levelNumber)
+    {
+        if (levelNumber == 5)
+        {
+            NavigationManager.NavigateTo("/clothing");
+        }
+    }
+
+    private string GetIconPath(int levelNumber)
+    {
+        switch (levelNumber)
+        {
+            case 1:
+                return "word-basic.png";
+            case 2:
+                return "word-basic1.png";
+            case 3:
+                return "phrases.png";
+            case 4:
+                return "animals.jpg";
+            case 5:
+                return "clothing.png";
+            default:
+                return "";
+        }
+    }
+
+    private string GetLevelName(int levelNumber)
+    {
+        switch (levelNumber)
+        {
+            case 1:
+                return "Базовые";
+            case 2:
+                return "Базовые 2";
+            case 3:
+                return "Фразы";
+            case 4:
+                return "Животные";
+            case 5:
+                return "Одежда";
+            default:
+                return "";
+        }
+    }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private class LevelData
+    {
+        public int Number { get; set; }
+        public float Progress { get; set; }
+    }
+}

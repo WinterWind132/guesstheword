@@ -1,0 +1,64 @@
+﻿.word-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Высота по высоте видимой области */
+    text-align: center;
+}
+
+.word-inputs {
+    margin-bottom: 20px;
+}
+
+    .word-inputs input {
+        width: 30px; /* Ширина поля ввода */
+        text-align: center;
+        margin: 0 5px;
+        font-size: 1.2em;
+        padding: 5px;
+    }
+
+.keyboard-row {
+    margin-bottom: 10px;
+}
+
+.keyboard-button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #4CAF50; /* Зеленый цвет кнопок */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+    .keyboard-button:disabled {
+        background-color: #cccccc; /* Серый цвет для отключенных кнопок */
+        cursor: not-allowed;
+    }
+
+.timer-display {
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.word-game-container img {
+    max-width: 200px; /* Пример размера изображения после угадывания слова */
+    height: auto;
+    margin-top: 10px;
+}
+
+.center-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px auto; /* Центрирование по горизонтали */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    display: block; /* Важно для центрирования */
+}
+

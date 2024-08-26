@@ -1,0 +1,37 @@
+﻿@page "/userprofile"
+@using Microsoft.AspNetCore.Components
+
+<div class="user-profile">
+    <div class="user-info">
+        <img src="images/user-icon.png" alt="User Icon" class="user-icon" />
+        <div class="user-details">
+            <h2>@userName</h2>
+            <div class="user-streak">
+                <span class="streak-icon">🔥</span>
+                <span>@streakDays дней в серии</span>
+            </div>
+        </div>
+    </div>
+    <div class="user-stats">
+        <div class="stat-item">
+            <span class="stat-icon">📚</span>
+            <div class="stat-title">Выучено слов:</div>
+            <div class="stat-value">@wordsLearned</div>
+        </div>
+        <div class="stat-item">
+            <span class="stat-icon">🗣️</span>
+            <div class="stat-title">Выучено фраз:</div>
+            <div class="stat-value">@phrasesLearned</div>
+        </div>
+    </div>
+    <div class="center-button">
+        <NavLink class="nav-link" href="/levels">Перейти к уровням</NavLink>
+    </div>
+</div>
+
+@code {
+    private string userName = "Winter Wind";
+    private int streakDays = 7; 
+    private int wordsLearned = 150;
+    private int phrasesLearned = 50;
+}

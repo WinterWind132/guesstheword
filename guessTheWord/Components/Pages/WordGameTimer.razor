@@ -1,0 +1,142 @@
+﻿@page "/word-game"
+@using System.Timers
+@using System.Text.Json;
+<link href="css/customCss/word-game.css" rel="stylesheet" />
+
+<div class="word-game-container">
+    <div class="score-display">
+        <h4>Счет: @score</h4>
+    </div>
+
+    <h3>@currentWord</h3>
+    <div class="word-inputs">
+        @for (int i = 0; i < wordToGuess.Length; i++)
+        {
+            <input @bind="inputs[i]" disabled="@(i != currentInputIndex)" class="word-input" />
+        }
+    </div>
+
+    <div>
+        <h4>Клавиатура:</h4>
+        <div class="keyboard-container">
+            @foreach (char letter in wordToGuess.Distinct())
+            {
+                <button @onclick="() => AddLetter(letter)" disabled="@(!IsButtonEnabled(letter))" class="keyboard-button">@letter</button>
+            }
+        </div>
+    </div>
+
+    <div class="timer-display">
+        <h4>Таймер: @timerDisplay</h4>
+    </div>
+
+</div>
+
+@code {
+    private string currentWord;
+    private string wordToGuess;
+    private string[] inputs;
+    private int currentInputIndex = 0;
+    private Timer timer;
+    private int totalSecondsElapsed = 300;
+    private int secondsElapsed;
+    private string timerDisplay = "05:00";
+    private bool wordGuessed = false;
+    private int score = 0;
+
+    private Dictionary<string, string> russianWords = new Dictionary<string, string>()
+    {
+        {"абажур", "ацәашьхагыла"},
+        {"абаз", "абаз"},
+        {"абазин", "абаза"},
+        {"абазинец", "абаза"},
+        {"абазинский", "абаза "}
+        // Добавьте больше слов сюда...
+    };
+
+    protected override void OnInitialized()
+    {
+        LoadNewWord();
+        StartTimer();
+    }
+
+    private void StartTimer()
+    {
+        timer = new Timer(1000);
+        timer.Elapsed += OnTimedEvent;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+
+    private void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+        if (!wordGuessed)
+        {
+            secondsElapsed--;
+            totalSecondsElapsed--;
+
+            if (secondsElapsed <= 0)
+            {
+                timerDisplay = "00:00";
+                timer.Enabled = false;
+            }
+            else
+            {
+                InvokeAsync(() =>
+                {
+                    timerDisplay = TimeSpan.FromSeconds(secondsElapsed).ToString(@"mm\:ss");
+                    StateHasChanged();
+                });
+            }
+        }
+    }
+
+    private void AddLetter(char letter)
+    {
+        if (!wordGuessed && currentInputIndex < inputs.Length)
+        {
+            inputs[currentInputIndex] = letter.ToString();
+            CheckInput();
+        }
+    }
+
+    private void CheckInput()
+    {
+        if (inputs[currentInputIndex] == wordToGuess[currentInputIndex].ToString())
+        {
+            currentInputIndex++;
+            if (currentInputIndex == wordToGuess.Length)
+            {
+                wordGuessed = true;
+                score += 20;
+                LoadNewWord();
+            }
+        }
+        else
+        {
+            inputs[currentInputIndex] = string.Empty;
+        }
+    }
+
+    private bool IsButtonEnabled(char letter)
+    {
+        return !wordGuessed && currentInputIndex < inputs.Length && string.IsNullOrEmpty(inputs[currentInputIndex]);
+    }
+
+    private void LoadNewWord()
+    {
+        if (russianWords.Count > 0)
+        {
+            var randomKey = russianWords.Keys.ElementAt(new Random().Next(0, russianWords.Keys.Count));
+            currentWord = randomKey;
+            wordToGuess = russianWords[randomKey];
+
+            inputs = new string[wordToGuess.Length];
+            currentInputIndex = 0;
+            wordGuessed = false;
+            secondsElapsed = totalSecondsElapsed;
+            timerDisplay = TimeSpan.FromSeconds(secondsElapsed).ToString(@"mm\:ss");
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,46 @@
+/* General Styling */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
+    border-top: none; /* Remove the border */
+    position: fixed; /* Fixed to the bottom */
+    bottom: 0; /* Bottom positioning */
+    width: 100%; /* Full width */
+    z-index: 10; /* Ensure it's above other content */
+    backdrop-filter: blur(10px); /* Add a subtle blur effect */
+}
+
+/* Item Styling */
+.nav-item {
+    flex: 1; /* Equal width distribution */
+    text-align: center; /* Center text */
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 3rem; /* Reduced height for even smaller buttons */
+    color: #ffffff; /* White text */
+    transition: color 0.2s ease; /* Smooth color transition */
+    text-decoration: none; /* Remove default link underline */
+    border: none; /* Remove any default border */
+    background-color: transparent; /* Make the background transparent */
+}
+
+    /* Active Item Styling */
+    .nav-link.active {
+        color: #ffffff; /* White when active */
+        background-color: rgba(255, 255, 255, 0.1); /* Subtle white glow */
+    }
+
+    /* Icon Styling */
+    .nav-link i {
+        font-size: 1.3rem; /* Smaller icon size */
+        margin-bottom: 0.2rem; /* Reduced margin */
+    }
+
+    /* Text Styling (No text, but we'll use Google Icons) */
+    .nav-link span {
+        display: none; /* Hide the text */
+    }

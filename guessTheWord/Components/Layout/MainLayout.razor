@@ -1,0 +1,25 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <main class="d-flex flex-row">
+        <NavMenu />
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<style>
+    main {
+        height: 100vh;
+    }
+
+    NavMenu {
+        width: 200px;
+    }
+
+    .content {
+        flex-grow: 1;
+        margin-top: 50px; 
+    }
+</style>
